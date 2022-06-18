@@ -1,8 +1,10 @@
 ﻿namespace AppNt.Models
 {
-    public enum Semester
+    public class Semester
     {
-        FIRST,
-        SECOND
+        public int Id { get; set; }
+
+        public string Type { get; set; }
+
     }
 }

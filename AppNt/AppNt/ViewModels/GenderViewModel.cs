@@ -1,11 +1,9 @@
-﻿
-namespace AppNt.Models
+﻿namespace AppNt.Controllers
 {
-    public class Gender
+    public class GenderViewModel
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
-
     }
 }

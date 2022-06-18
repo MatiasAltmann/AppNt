@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AppNt.Models;
+using AppNt.Controllers;
 
 
 namespace RankingProfesores.Context
@@ -14,8 +15,10 @@ namespace RankingProfesores.Context
         {
         }
 
-        public DbSet<Student> Estudiantes { get; set; }
-        public DbSet<Profesor> Profesores{ get; set; }
-        public DbSet<Asignature> Materias { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Profesor> Profesors{ get; set; }
+        public DbSet<Asignature> Asignatures { get; set; }
+        public DbSet<Gender> Gender { get; set; }
+        public DbSet<Semester> Semesters { get; set; }
     }
 }
