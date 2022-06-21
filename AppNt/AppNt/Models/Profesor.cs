@@ -15,8 +15,7 @@ namespace AppNt.Models
 
         [Required]
         public string Age { get; set; }
-        public int LikesCount { get; set; }
-        public int UnlikeCount { get; set; }
+
         public Asignature Asignature { get; set; }
     }
 }

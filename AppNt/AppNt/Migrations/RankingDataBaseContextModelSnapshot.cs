@@ -19,64 +19,6 @@ namespace AppNt.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AppNt.Controllers.GenderViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GenderViewModel");
-                });
-
-            modelBuilder.Entity("AppNt.Controllers.StudentViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("GenderVmId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdentificationNumber")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Lastname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GenderVmId");
-
-                    b.ToTable("StudentViewModel");
-                });
-
             modelBuilder.Entity("AppNt.Models.Asignature", b =>
                 {
                     b.Property<int>("Id")
@@ -95,7 +37,7 @@ namespace AppNt.Migrations
 
                     b.HasIndex("SemesterId");
 
-                    b.ToTable("Materias");
+                    b.ToTable("Asignatures");
                 });
 
             modelBuilder.Entity("AppNt.Models.Gender", b =>
@@ -106,6 +48,7 @@ namespace AppNt.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -131,21 +74,31 @@ namespace AppNt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LikesCount")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UnlikeCount")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AsignatureId");
 
-                    b.ToTable("Profesores");
+                    b.ToTable("Profesors");
+                });
+
+            modelBuilder.Entity("AppNt.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("AppNt.Models.Semester", b =>
@@ -156,14 +109,15 @@ namespace AppNt.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Semester");
+                    b.ToTable("Semesters");
                 });
 
-            modelBuilder.Entity("AppNt.Models.Student", b =>
+            modelBuilder.Entity("AppNt.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -195,28 +149,47 @@ namespace AppNt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GenderId");
 
-                    b.ToTable("Estudiantes");
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("AppNt.Controllers.StudentViewModel", b =>
+            modelBuilder.Entity("AppNt.Models.Vote", b =>
                 {
-                    b.HasOne("AppNt.Controllers.GenderViewModel", "GenderVm")
-                        .WithMany()
-                        .HasForeignKey("GenderVmId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ProfesorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("valueVote")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfesorId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("AppNt.Models.Asignature", b =>
                 {
                     b.HasOne("AppNt.Models.Semester", "Semester")
-                        .WithMany()
+                        .WithMany("Asignatures")
                         .HasForeignKey("SemesterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -229,11 +202,26 @@ namespace AppNt.Migrations
                         .HasForeignKey("AsignatureId");
                 });
 
-            modelBuilder.Entity("AppNt.Models.Student", b =>
+            modelBuilder.Entity("AppNt.Models.User", b =>
                 {
                     b.HasOne("AppNt.Models.Gender", "Gender")
                         .WithMany()
                         .HasForeignKey("GenderId");
+
+                    b.HasOne("AppNt.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
+                });
+
+            modelBuilder.Entity("AppNt.Models.Vote", b =>
+                {
+                    b.HasOne("AppNt.Models.Profesor", "Profesor")
+                        .WithMany()
+                        .HasForeignKey("ProfesorId");
+
+                    b.HasOne("AppNt.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

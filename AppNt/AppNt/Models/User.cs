@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AppNt.Models
 {
-    public class Student
+    public class User //Esto es valido tanto para el estudiante como para el Admin.
     {
         public int Id { get; set; }
 
@@ -13,9 +13,6 @@ namespace AppNt.Models
 
         [Required]
         public int IdentificationNumber { get; set; }
-
-        [Required]
-        public string Username { get; set; }
 
         [Required]
         public string Password { get; set; }
@@ -29,7 +26,10 @@ namespace AppNt.Models
         [Required]
         public int Age { get; set; }
 
-        [EnumDataType(typeof(Gender))]
-            public Gender Gender { get; set; }
-        }
+        public Gender Gender { get; set; }
+
+        public Role Role { get; set; }
     }
+
+        
+}

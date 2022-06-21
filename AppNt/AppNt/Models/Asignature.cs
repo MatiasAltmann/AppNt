@@ -14,7 +14,6 @@ namespace AppNt.Models
 
         [Required]
 
-        [EnumDataType(typeof(Semester))]
         public Semester Semester { get; set; }
 
         [Required]

@@ -18,6 +18,10 @@ namespace AppNt.Controllers
             _dbContext = dbContext;
         } // Esto lo tengo que hacer si o si para poder usarlo con la BD.
 
+     
+        //1. Cambiar el nombre del ViewModel 
+        //2. Agregarle el Rol al usuario para que sea por default alumno 
+        
         [HttpGet]
         public IActionResult RegisterStudent(){
             var gender = _dbContext.Gender;
@@ -28,19 +32,20 @@ namespace AppNt.Controllers
                 
             }).ToList();
 
-            var studentVm = new StudentViewModel
+            var studentVm = new UserViewModel
             {
                 GenderVm = genderVmList
             };
             return View(studentVm);
-        }
+        } // Volver a repasar que no entendí esto.
 
         //Creo la accion de registrar usuario
-        public IActionResult RegisterStudent(StudentViewModel studentVm)
+        public IActionResult RegisterStudent(UserViewModel studentVm)
         {
             var gender = _dbContext.Gender.Where(x=> x.Id == studentVm.Gender).FirstOrDefault();
+            var rolStudent = _dbContext.Role.Where(rolAux => rolAux.Name == "alumno").FirstOrDefault();
 
-            var student = new Student
+            var student = new User
             {
                 Name = studentVm.Name,
                 Age = studentVm.Age,
@@ -49,12 +54,13 @@ namespace AppNt.Controllers
                 IdentificationNumber = studentVm.IdentificationNumber,
                 Lastname = studentVm.Lastname,
                 Password = studentVm.Password,
-                Username = studentVm.Username
+                Role = rolStudent
+
             };
 
-            _dbContext.Add(student); //Guardo el objeto en memoria
+            _dbContext.Add(student); //Guardo el objeto en memoria -> No tengo q indicarle en que tabla?
             _dbContext.SaveChanges(); //  Guardo en la BD
-            return View();
+            return Redirect("/home"); //No le tengo que indicar que vista ?
         }
     }
 }

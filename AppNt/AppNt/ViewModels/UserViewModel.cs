@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AppNt.Controllers
 {
-    public class StudentViewModel
+    public class UserViewModel
     {
         public int Id { get; set; }
 
@@ -15,9 +15,6 @@ namespace AppNt.Controllers
 
         [Required]
         public int IdentificationNumber { get; set; }
-
-        [Required]
-        public string Username { get; set; }
 
         [Required]
         public string Password { get; set; }

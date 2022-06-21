@@ -20,7 +20,6 @@ namespace AppNt.Controllers
 
         public IActionResult Index()
         {
-            var hola = "asda0";
             return View();
         }
 

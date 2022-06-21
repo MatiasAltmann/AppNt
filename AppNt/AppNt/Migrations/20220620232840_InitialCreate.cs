@@ -12,7 +12,7 @@ namespace AppNt.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -20,85 +20,65 @@ namespace AppNt.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GenderViewModel",
+                name: "Role",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GenderViewModel", x => x.Id);
+                    table.PrimaryKey("PK_Role", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Semester",
+                name: "Semesters",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<string>(nullable: true)
+                    Type = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Semester", x => x.Id);
+                    table.PrimaryKey("PK_Semesters", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Estudiantes",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
                     IdentificationNumber = table.Column<int>(nullable: false),
-                    Username = table.Column<string>(nullable: false),
                     Password = table.Column<string>(nullable: false),
                     Lastname = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
                     Age = table.Column<int>(nullable: false),
-                    GenderId = table.Column<int>(nullable: true)
+                    GenderId = table.Column<int>(nullable: true),
+                    RoleId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Estudiantes", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Estudiantes_Gender_GenderId",
+                        name: "FK_Users_Gender_GenderId",
                         column: x => x.GenderId,
                         principalTable: "Gender",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StudentViewModel",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
-                    IdentificationNumber = table.Column<int>(nullable: false),
-                    Username = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false),
-                    Lastname = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
-                    Age = table.Column<int>(nullable: false),
-                    GenderVmId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StudentViewModel", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StudentViewModel_GenderViewModel_GenderVmId",
-                        column: x => x.GenderVmId,
-                        principalTable: "GenderViewModel",
+                        name: "FK_Users_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Materias",
+                name: "Asignatures",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -108,17 +88,17 @@ namespace AppNt.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Materias", x => x.Id);
+                    table.PrimaryKey("PK_Asignatures", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Materias_Semester_SemesterId",
+                        name: "FK_Asignatures_Semesters_SemesterId",
                         column: x => x.SemesterId,
-                        principalTable: "Semester",
+                        principalTable: "Semesters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Profesores",
+                name: "Profesors",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -126,64 +106,99 @@ namespace AppNt.Migrations
                     Name = table.Column<string>(nullable: false),
                     Lastname = table.Column<string>(nullable: false),
                     Age = table.Column<string>(nullable: false),
-                    LikesCount = table.Column<int>(nullable: false),
-                    UnlikeCount = table.Column<int>(nullable: false),
                     AsignatureId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Profesores", x => x.Id);
+                    table.PrimaryKey("PK_Profesors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Profesores_Materias_AsignatureId",
+                        name: "FK_Profesors_Asignatures_AsignatureId",
                         column: x => x.AsignatureId,
-                        principalTable: "Materias",
+                        principalTable: "Asignatures",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Votes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(nullable: true),
+                    ProfesorId = table.Column<int>(nullable: true),
+                    valueVote = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Votes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Votes_Profesors_ProfesorId",
+                        column: x => x.ProfesorId,
+                        principalTable: "Profesors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Votes_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Estudiantes_GenderId",
-                table: "Estudiantes",
-                column: "GenderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Materias_SemesterId",
-                table: "Materias",
+                name: "IX_Asignatures_SemesterId",
+                table: "Asignatures",
                 column: "SemesterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Profesores_AsignatureId",
-                table: "Profesores",
+                name: "IX_Profesors_AsignatureId",
+                table: "Profesors",
                 column: "AsignatureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentViewModel_GenderVmId",
-                table: "StudentViewModel",
-                column: "GenderVmId");
+                name: "IX_Users_GenderId",
+                table: "Users",
+                column: "GenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Votes_ProfesorId",
+                table: "Votes",
+                column: "ProfesorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Votes_UserId",
+                table: "Votes",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Estudiantes");
+                name: "Votes");
 
             migrationBuilder.DropTable(
-                name: "Profesores");
+                name: "Profesors");
 
             migrationBuilder.DropTable(
-                name: "StudentViewModel");
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Asignatures");
 
             migrationBuilder.DropTable(
                 name: "Gender");
 
             migrationBuilder.DropTable(
-                name: "Materias");
+                name: "Role");
 
             migrationBuilder.DropTable(
-                name: "GenderViewModel");
-
-            migrationBuilder.DropTable(
-                name: "Semester");
+                name: "Semesters");
         }
     }
 }
