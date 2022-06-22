@@ -17,10 +17,25 @@ namespace AppNt.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult showAsignatures(int idSemester)
+        public IActionResult ShowAsignatures(int idSemester)
         {
-            var asignatures = _dbContext.Asignatures.Where(x => x.Id == idSemester).ToList();
-            
+            var asignatures = new List<AsignatureViewModel>();
+
+            foreach (var item in _dbContext.Asignatures)
+            {
+                bool a = item.Semester.Id == 2;
+                if(item.Id == idSemester) //Me falta saber como comparat el semesterId -> q me genera la base de datos
+                {
+                    asignatures.Add(new AsignatureViewModel
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        Semester = item.Semester
+                    });
+                }
+                                 
+            }
+
 
             return View(asignatures);
         }
