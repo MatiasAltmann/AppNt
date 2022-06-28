@@ -1,0 +1,27 @@
+﻿@model IEnumerable<AppNt.Models.Semester>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp- asp-controller="Asignature" asp-action="IndexUnSemestre"  asp-route-id="@item.Id">Ver materias</a> |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

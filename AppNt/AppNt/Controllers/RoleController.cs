@@ -10,34 +10,22 @@ using RankingProfesores.Context;
 
 namespace AppNt.Controllers
 {
-    public class AsignatureController : Controller
+    public class RoleController : Controller
     {
         private readonly RankingDataBaseContext _context;
 
-        public AsignatureController(RankingDataBaseContext context)
+        public RoleController(RankingDataBaseContext context)
         {
             _context = context;
         }
 
-        // GET: Asignature
-
-    
-
-
-        public IActionResult IndexUnSemestre(int id)
-        {
-            var asignatures = _context.Asignatures.Where(a => a.Semester.Id == id).ToList();
-            return View(asignatures);
-        }
-
-        // GET: Asignature
+        // GET: Role
         public async Task<IActionResult> Index()
         {
-            var rankingDataBaseContext = _context.Asignatures.Include(a => a.Semester);
-            return View(await rankingDataBaseContext.ToListAsync());
+            return View(await _context.Role.ToListAsync());
         }
 
-        // GET: Asignature/Details/5
+        // GET: Role/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,42 +33,39 @@ namespace AppNt.Controllers
                 return NotFound();
             }
 
-            var asignature = await _context.Asignatures
-                .Include(a => a.Semester)
+            var role = await _context.Role
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (asignature == null)
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(asignature);
+            return View(role);
         }
 
-        // GET: Asignature/Create
+        // GET: Role/Create
         public IActionResult Create()
         {
-            ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name");
             return View();
         }
 
-        // POST: Asignature/Create
+        // POST: Role/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,SemesterId")] Asignature asignature)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Role role)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(asignature);
+                _context.Add(role);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name", asignature.SemesterId);
-            return View(asignature);
+            return View(role);
         }
 
-        // GET: Asignature/Edit/5
+        // GET: Role/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,23 +73,22 @@ namespace AppNt.Controllers
                 return NotFound();
             }
 
-            var asignature = await _context.Asignatures.FindAsync(id);
-            if (asignature == null)
+            var role = await _context.Role.FindAsync(id);
+            if (role == null)
             {
                 return NotFound();
             }
-            ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name", asignature.SemesterId);
-            return View(asignature);
+            return View(role);
         }
 
-        // POST: Asignature/Edit/5
+        // POST: Role/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,SemesterId")] Asignature asignature)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Role role)
         {
-            if (id != asignature.Id)
+            if (id != role.Id)
             {
                 return NotFound();
             }
@@ -113,12 +97,12 @@ namespace AppNt.Controllers
             {
                 try
                 {
-                    _context.Update(asignature);
+                    _context.Update(role);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AsignatureExists(asignature.Id))
+                    if (!RoleExists(role.Id))
                     {
                         return NotFound();
                     }
@@ -129,11 +113,10 @@ namespace AppNt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name", asignature.SemesterId);
-            return View(asignature);
+            return View(role);
         }
 
-        // GET: Asignature/Delete/5
+        // GET: Role/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,31 +124,30 @@ namespace AppNt.Controllers
                 return NotFound();
             }
 
-            var asignature = await _context.Asignatures
-                .Include(a => a.Semester)
+            var role = await _context.Role
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (asignature == null)
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(asignature);
+            return View(role);
         }
 
-        // POST: Asignature/Delete/5
+        // POST: Role/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var asignature = await _context.Asignatures.FindAsync(id);
-            _context.Asignatures.Remove(asignature);
+            var role = await _context.Role.FindAsync(id);
+            _context.Role.Remove(role);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AsignatureExists(int id)
+        private bool RoleExists(int id)
         {
-            return _context.Asignatures.Any(e => e.Id == id);
+            return _context.Role.Any(e => e.Id == id);
         }
     }
 }

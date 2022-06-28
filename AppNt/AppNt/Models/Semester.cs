@@ -9,7 +9,7 @@ namespace AppNt.Models
         public int Id { get; set; }
 
         [Required]
-        public string Type { get; set; } //Tengo que ponerlo por BD cual es. Salvo que nos enseñen a trabajar con ENUMS.
+        public string Name { get; set; } //Tengo que ponerlo por BD cual es. Salvo que nos enseñen a trabajar con ENUMS.
 
         public ICollection<Asignature> Asignatures { get; set; }
 

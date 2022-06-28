@@ -7,19 +7,6 @@ namespace AppNt.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Gender",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Gender", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Role",
                 columns: table => new
                 {
@@ -38,7 +25,7 @@ namespace AppNt.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,18 +44,12 @@ namespace AppNt.Migrations
                     Lastname = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
                     Age = table.Column<int>(nullable: false),
-                    GenderId = table.Column<int>(nullable: true),
+                    Gender = table.Column<int>(nullable: false),
                     RoleId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Gender_GenderId",
-                        column: x => x.GenderId,
-                        principalTable: "Gender",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Users_Role_RoleId",
                         column: x => x.RoleId,
@@ -106,7 +87,8 @@ namespace AppNt.Migrations
                     Name = table.Column<string>(nullable: false),
                     Lastname = table.Column<string>(nullable: false),
                     Age = table.Column<string>(nullable: false),
-                    AsignatureId = table.Column<int>(nullable: true)
+                    Photo = table.Column<string>(nullable: true),
+                    AsignatureId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,7 +98,7 @@ namespace AppNt.Migrations
                         column: x => x.AsignatureId,
                         principalTable: "Asignatures",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,11 +139,6 @@ namespace AppNt.Migrations
                 column: "AsignatureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_GenderId",
-                table: "Users",
-                column: "GenderId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
@@ -190,9 +167,6 @@ namespace AppNt.Migrations
 
             migrationBuilder.DropTable(
                 name: "Asignatures");
-
-            migrationBuilder.DropTable(
-                name: "Gender");
 
             migrationBuilder.DropTable(
                 name: "Role");

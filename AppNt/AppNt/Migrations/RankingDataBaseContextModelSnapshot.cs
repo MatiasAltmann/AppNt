@@ -15,7 +15,7 @@ namespace AppNt.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.25")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -40,22 +40,6 @@ namespace AppNt.Migrations
                     b.ToTable("Asignatures");
                 });
 
-            modelBuilder.Entity("AppNt.Models.Gender", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Gender");
-                });
-
             modelBuilder.Entity("AppNt.Models.Profesor", b =>
                 {
                     b.Property<int>("Id")
@@ -67,7 +51,7 @@ namespace AppNt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("AsignatureId")
+                    b.Property<int>("AsignatureId")
                         .HasColumnType("int");
 
                     b.Property<string>("Lastname")
@@ -76,6 +60,9 @@ namespace AppNt.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -108,7 +95,7 @@ namespace AppNt.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Type")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -131,7 +118,7 @@ namespace AppNt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GenderId")
+                    b.Property<int>("Gender")
                         .HasColumnType("int");
 
                     b.Property<int>("IdentificationNumber")
@@ -153,8 +140,6 @@ namespace AppNt.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GenderId");
 
                     b.HasIndex("RoleId");
 
@@ -199,15 +184,13 @@ namespace AppNt.Migrations
                 {
                     b.HasOne("AppNt.Models.Asignature", "Asignature")
                         .WithMany("Profesors")
-                        .HasForeignKey("AsignatureId");
+                        .HasForeignKey("AsignatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AppNt.Models.User", b =>
                 {
-                    b.HasOne("AppNt.Models.Gender", "Gender")
-                        .WithMany()
-                        .HasForeignKey("GenderId");
-
                     b.HasOne("AppNt.Models.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId");
@@ -216,7 +199,7 @@ namespace AppNt.Migrations
             modelBuilder.Entity("AppNt.Models.Vote", b =>
                 {
                     b.HasOne("AppNt.Models.Profesor", "Profesor")
-                        .WithMany()
+                        .WithMany("Vote")
                         .HasForeignKey("ProfesorId");
 
                     b.HasOne("AppNt.Models.User", "User")

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AppNt.Models
@@ -16,6 +17,15 @@ namespace AppNt.Models
         [Required]
         public string Age { get; set; }
 
+        public string Photo { get; set; }
+
+        public int AsignatureId { get; set; }
+
         public Asignature Asignature { get; set; }
+
+        public ICollection<Vote> Vote { get; set; }
+
+
+
     }
 }

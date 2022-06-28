@@ -12,11 +12,9 @@ namespace AppNt.Models
         [Required]
         public string Name { get; set; }
 
-        [Required]
-
+        public int SemesterId { get; set; }
         public Semester Semester { get; set; }
 
-        [Required]
         public ICollection<Profesor> Profesors { get; set; } 
     }
 }
