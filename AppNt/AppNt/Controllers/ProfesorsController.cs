@@ -19,7 +19,13 @@ namespace AppNt.Controllers
             _context = context;
         }
 
+        
+         /*
+          
         public IActionResult mostrarRanking()
+            //where donde el voto sea 1.
+            //agrupado por profesor.
+            //el count para q el ordenado sea descendiente.
         {
             var listaVotos = _context.Votes.ToList();
             var listaPorProfesor = listaVotos.GroupBy(x => x.).ToList();
@@ -27,7 +33,7 @@ namespace AppNt.Controllers
 
             return View(listaOrdenada);
         }
-
+        */
         // GET: Profesors
         public async Task<IActionResult> Index()
         {

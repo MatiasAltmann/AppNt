@@ -21,10 +21,23 @@ namespace AppNt.Controllers
 
         // GET: Profesors1
 
-        
+
+        /*
+         
+        public IActionResult votar()
+        {
+            TempData["indexProfesor"] = idProfesor;
+            return Redirect("/Votes/Create");
+        }
+
+
+*/
+
+
 
         public IActionResult IndexProfesoresMateria(int id)
         {
+            TempData["indexMateria"] = id;
             var profesores = _context.Profesors.Where(x => x.AsignatureId == id).ToList();
 
             return View(profesores);

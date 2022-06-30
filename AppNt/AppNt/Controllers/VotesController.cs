@@ -10,35 +10,36 @@ using RankingProfesores.Context;
 
 namespace AppNt.Controllers
 {
-    public class AsignatureController : Controller
+    public class VotesController : Controller
     {
         private readonly RankingDataBaseContext _context;
 
-        public AsignatureController(RankingDataBaseContext context)
+        public VotesController(RankingDataBaseContext context)
         {
             _context = context;
         }
 
-        // GET: Asignature
-
-    
-
-
-        public IActionResult IndexUnSemestre(int id)
+        
+         
+        public IActionResult mostrarRanking()
         {
-            TempData["indexAsignature"] = id;
-            var asignatures = _context.Asignatures.Where(a => a.Semester.Id == id).ToList();
-            return View(asignatures);
-        }
+            var votos = _context.Votes.OrderBy(x => x.valueVote).GroupBy(x => x.ProfesorId).Select( new Profesor
+            {
+                Name = 
+            });
+         
 
-        // GET: Asignature
+            return View(votos);
+        }
+        
+        // GET: Votes
         public async Task<IActionResult> Index()
         {
-            var rankingDataBaseContext = _context.Asignatures.Include(a => a.Semester);
+            var rankingDataBaseContext = _context.Votes.Include(v => v.Profesor).Include(v => v.User);
             return View(await rankingDataBaseContext.ToListAsync());
         }
 
-        // GET: Asignature/Details/5
+        // GET: Votes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,42 +47,47 @@ namespace AppNt.Controllers
                 return NotFound();
             }
 
-            var asignature = await _context.Asignatures
-                .Include(a => a.Semester)
+            var vote = await _context.Votes
+                .Include(v => v.Profesor)
+                .Include(v => v.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (asignature == null)
+            if (vote == null)
             {
                 return NotFound();
             }
 
-            return View(asignature);
+            return View(vote);
         }
 
-        // GET: Asignature/Create
+        // GET: Votes/Create
         public IActionResult Create()
         {
-            ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name");
+            int i = 1;
+            ViewData["ProfesorId"] = new SelectList(_context.Profesors.Where(x => x.AsignatureId == i), "Id", "Lastname");
+           // ViewData["ProfesorId"] = new SelectList(_context.Profesors.Where(x=> x.AsignatureId == i), "Id", "Lastname");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email");
             return View();
         }
 
-        // POST: Asignature/Create
+        // POST: Votes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,SemesterId")] Asignature asignature)
+        public async Task<IActionResult> Create([Bind("Id,UserId,ProfesorId,valueVote")] Vote vote)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(asignature);
+                _context.Add(vote);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name", asignature.SemesterId);
-            return View(asignature);
+            ViewData["ProfesorId"] = new SelectList(_context.Profesors, "Id", "Lastname", vote.ProfesorId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", vote.UserId);
+            return View(vote);
         }
 
-        // GET: Asignature/Edit/5
+        // GET: Votes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,23 +95,24 @@ namespace AppNt.Controllers
                 return NotFound();
             }
 
-            var asignature = await _context.Asignatures.FindAsync(id);
-            if (asignature == null)
+            var vote = await _context.Votes.FindAsync(id);
+            if (vote == null)
             {
                 return NotFound();
             }
-            ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name", asignature.SemesterId);
-            return View(asignature);
+            ViewData["ProfesorId"] = new SelectList(_context.Profesors, "Id", "Lastname", vote.ProfesorId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", vote.UserId);
+            return View(vote);
         }
 
-        // POST: Asignature/Edit/5
+        // POST: Votes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,SemesterId")] Asignature asignature)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,ProfesorId,valueVote")] Vote vote)
         {
-            if (id != asignature.Id)
+            if (id != vote.Id)
             {
                 return NotFound();
             }
@@ -114,12 +121,12 @@ namespace AppNt.Controllers
             {
                 try
                 {
-                    _context.Update(asignature);
+                    _context.Update(vote);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AsignatureExists(asignature.Id))
+                    if (!VoteExists(vote.Id))
                     {
                         return NotFound();
                     }
@@ -130,11 +137,12 @@ namespace AppNt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name", asignature.SemesterId);
-            return View(asignature);
+            ViewData["ProfesorId"] = new SelectList(_context.Profesors, "Id", "Lastname", vote.ProfesorId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", vote.UserId);
+            return View(vote);
         }
 
-        // GET: Asignature/Delete/5
+        // GET: Votes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -142,31 +150,32 @@ namespace AppNt.Controllers
                 return NotFound();
             }
 
-            var asignature = await _context.Asignatures
-                .Include(a => a.Semester)
+            var vote = await _context.Votes
+                .Include(v => v.Profesor)
+                .Include(v => v.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (asignature == null)
+            if (vote == null)
             {
                 return NotFound();
             }
 
-            return View(asignature);
+            return View(vote);
         }
 
-        // POST: Asignature/Delete/5
+        // POST: Votes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var asignature = await _context.Asignatures.FindAsync(id);
-            _context.Asignatures.Remove(asignature);
+            var vote = await _context.Votes.FindAsync(id);
+            _context.Votes.Remove(vote);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AsignatureExists(int id)
+        private bool VoteExists(int id)
         {
-            return _context.Asignatures.Any(e => e.Id == id);
+            return _context.Votes.Any(e => e.Id == id);
         }
     }
 }

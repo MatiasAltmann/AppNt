@@ -9,8 +9,10 @@ namespace AppNt.Models
     {
         public int Id { get; set; } //AutoIncremental x defecto es PK.
 
+        public int UserId { get; set; }
         public User User { get; set; }
 
+        public int ProfesorId { get; set; }
         public Profesor Profesor { get; set; }
 
         public bool valueVote { get; set; } //Si es true -> 1 , si es False es 0 -> Si no existe bajo el usuario no VOTO.

@@ -23,28 +23,34 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Photo)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Photo)
+                </td>
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Me gusta</a>
-                <a asp-action="Delete" asp-route-id="@item.Id">No me gusta</a>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <td>
 
-            </td>
-        </tr>
-}
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+
+                </td>
+            </tr>
+
+
+        }
+
     </tbody>
+    <a asp-controller="Votes" asp-action="Create"><input type="button" name="name" value="Votar" /></a>
+    
+
 </table>

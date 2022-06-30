@@ -86,7 +86,7 @@ namespace AppNt.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
                     Lastname = table.Column<string>(nullable: false),
-                    Age = table.Column<string>(nullable: false),
+                    Age = table.Column<int>(nullable: false),
                     Photo = table.Column<string>(nullable: true),
                     AsignatureId = table.Column<int>(nullable: false)
                 },
@@ -107,8 +107,8 @@ namespace AppNt.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: true),
-                    ProfesorId = table.Column<int>(nullable: true),
+                    UserId = table.Column<int>(nullable: false),
+                    ProfesorId = table.Column<int>(nullable: false),
                     valueVote = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -119,13 +119,13 @@ namespace AppNt.Migrations
                         column: x => x.ProfesorId,
                         principalTable: "Profesors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Votes_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
