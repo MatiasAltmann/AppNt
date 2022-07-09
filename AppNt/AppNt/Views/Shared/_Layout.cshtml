@@ -9,6 +9,10 @@
     <link rel="stylesheet" href=~/css/style.css />
     <link rel="stylesheet" href="~/css/botonesPrincipales.css">
     <link rel="stylesheet" href="~/css/footer.css">
+    <link rel="stylesheet" href="~/css/styleNavcss.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
 
 
 </head>
@@ -24,45 +28,48 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
+                        <ul class="navbar-nav flex-row-reverse-1">
                             @if (User.Identity.IsAuthenticated)
                             {
                                 @if (User.IsInRole("ESTUDIANTES"))
                                 {
 
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Semester" asp-action="IndexForStudents">Semesters</a>
+                                    <a class="nav-link " asp-area="" asp-controller="Semester" asp-action="IndexForStudents">Semesters</a>
 
                                 }
                                 else
                                 {
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                        <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Semester" asp-action="Index">Semesters</a>
+                                        <a class="nav-link " asp-area="" asp-controller="Semester" asp-action="Index">Semesters</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Asignature" asp-action="Index">Asignatures</a>
+                                        <a class="nav-link " asp-area="" asp-controller="Asignature" asp-action="Index">Asignatures</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Profesors1" asp-action="Index">Profesors</a>
+                                        <a class="nav-link " asp-area="" asp-controller="Profesors1" asp-action="Index">Profesors</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Votes" asp-action="Index">Ranking</a>
+                                        <a class="nav-link " asp-area="" asp-controller="Votes" asp-action="Index">Ranking</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " asp-area="" asp-controller="User" asp-action="Index">Students</a>
                                     </li>
 
                                 }
 
-                                <li class="nav-item float-right">
+                                <li class="nav-item ">
                                     <form asp-controller="User" asp-action="Salir" method="post">
-                                        <button type="submit" class="nav-link text-danger">Salir</button>
+                                        <a><button class="button-66" role="button" type="submit">Salir</button></a>
                                     </form>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item float-right">
-                                    <a asp-area="" asp-controller="User" asp-action="IniciarSesion"><button class="button-66" role="button">Iniciar sesion</button></a>
+                                    <a asp-area="" asp-controller="User" asp-action="IniciarSesion"><button class="button-66" role="button" style="margin-right: 5px"> Iniciar sesion </button></a>
                                 </li>
                                 <li class="nav-item float-right">
                                     <a asp-area="" asp-controller="User" asp-action="Create"><button class="button-66" role="button">Registrate</button></a>

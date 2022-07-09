@@ -55,6 +55,7 @@ namespace AppNt.Controllers
 
             // Ejecutamos el Login
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            
 
             if (user.Role == Role.ADMINISTRADOR) {
                 return Redirect("/Semester/Index");
@@ -146,6 +147,7 @@ namespace AppNt.Controllers
             return View(user);
         }
 
+        [Authorize]
         // GET: User/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

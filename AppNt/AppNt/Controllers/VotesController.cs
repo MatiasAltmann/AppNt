@@ -29,7 +29,6 @@ namespace AppNt.Controllers
 
             var votos = _context.Votes.Include(x => x.Profesor).Where(x => x.valueVote == true).Where(x => x.Profesor.AsignatureId == (int)TempData["indexMateria"]).ToList();
             var agruparPorProfesor = votos.GroupBy(x => x.Profesor).ToList();
-
             var mayores = agruparPorProfesor.OrderByDescending(x => x.Key.Vote.Count);
             int pos = 1;
             var listaVotosProfesor = new List<VotoProfesor>();

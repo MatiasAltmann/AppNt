@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<AppNt.Models.User>
-    <head>
-        <link rel="stylesheet" href="~/css/botones.css">
-    </head>
+<head>
+    <link rel="stylesheet" href="~/css/botones.css">
+</head>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,11 +9,10 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+
 <table class="table">
-    <thead  class="thead-dark">
+    <thead class="thead-dark">
         <tr>
             <th cope="col">
                 @Html.DisplayNameFor(model => model.Name)
@@ -36,46 +35,44 @@
             <th cope="col">
                 @Html.DisplayNameFor(model => model.Gender)
             </th>
-            <th cope="col">
-                @Html.DisplayNameFor(model => model.Role)
-            </th>
-            <th cope="col">More information</thcope="col">
-</tr>
+
+            <th cope="col">More information</th>
+        </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdentificationNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdentificationNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
 
-                <button class="button-81" role="button"> <a asp-action="Edit" asp-route-id="@item.Id">Edit</a></button>
-                <button class="button-81" role="button"> <a asp-action="Details" asp-route-id="@item.Id">Details</a></button>
-                <button class="button-81" role="button"> <a asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
-            </td>
-        </tr>
-}
+                <td>
+
+                    <button class="button-81" role="button"> <a asp-action="Edit" asp-route-id="@item.Id">Edit</a></button>
+                    <button class="button-81" role="button"> <a asp-action="Details" asp-route-id="@item.Id">Details</a></button>
+                    <button class="button-81" role="button"> <a asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<a asp-action="Create"><button class="button-28" role="button">Create new</button></a>
