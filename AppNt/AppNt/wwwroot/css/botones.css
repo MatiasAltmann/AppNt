@@ -1,5 +1,4 @@
 ﻿
-
 .button-81 {
     background-color: #fff;
     border: 0 solid #e2e8f0;
@@ -28,9 +27,3 @@
     color: #fff;
 }
 
-@media (min-width: 768px) {
-    .button-81 {
-        font-size: 1.125rem;
-        padding: 1rem 2rem;
-    }
-}

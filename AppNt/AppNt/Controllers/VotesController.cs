@@ -131,7 +131,7 @@ namespace AppNt.Controllers
         }
 
         // GET: Votes/Edit/5
-        [Authorize(Roles = "ESTUDIANTE")]
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

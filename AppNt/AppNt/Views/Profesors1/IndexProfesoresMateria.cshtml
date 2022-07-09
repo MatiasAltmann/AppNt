@@ -1,4 +1,8 @@
 ﻿@model IEnumerable<AppNt.Models.Profesor>
+<head>
+    <link rel="stylesheet" href="~/css/botones.css">
+    <link rel="stylesheet" href="~/css/botonesPrincipales.css">
+</head>
 
 
 
@@ -18,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.Photo)
             </th>
 
-            <th></th>
+            <th>More information</th>
         </tr>
     </thead>
     <tbody>
@@ -40,20 +44,16 @@
 
                 <td>
 
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+
+                    <button class="button-81" role="button"> <a asp-action="Details" asp-route-id="@item.Id">Details</a></button>
 
                 </td>
             </tr>
 
 
         }
-
-
-
-
     </tbody>
-    <a asp-controller="Votes" asp-action="Create"><input type="button" name="name" value="Votar" /></a>
-    <a asp-controller="Votes" asp-action="mostrarRanking"><input type="button" name="name" value="Ver ranking" /></a>
-
 
 </table>
+<button class="button-28 btn-sm" role="button"> <a asp-controller="Votes" asp-action="Create">Votar</a></button>
+<button class="button-28 btn-sm" role="button"> <a asp-controller="Votes" asp-action="mostrarRanking">Ver ranking</a></button>

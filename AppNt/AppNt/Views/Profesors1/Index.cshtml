@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<AppNt.Models.Profesor>
+<head>
+    <link rel="stylesheet" href="~/css/botones.css">
+</head>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,11 +9,10 @@
 
 <h1>Profesors</h1>
 
-<p>
-    <a asp-action="Create">New profesor</a>
-</p>
+
+
 <table class="table">
-    <thead   class="thead-dark">
+    <thead class="thead-dark">
         <tr>
             <th cope="col">
                 @Html.DisplayNameFor(model => model.Name)
@@ -18,7 +20,7 @@
             <th cope="col">
                 @Html.DisplayNameFor(model => model.Lastname)
             </th>
-            <th cope="col"> 
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Age)
             </th>
             <th cope="col">
@@ -31,27 +33,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-        
-            <td>
-                @Html.DisplayFor(modelItem => item.Asignature.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Asignature.Name)
+                </td>
+                <td>
+
+
+                    <button class="button-81" role="button"> <a asp-action="Edit" asp-route-id="@item.Id">Edit</a></button>
+                    <button class="button-81" role="button"><a asp-action="Details" asp-route-id="@item.Id">Details</a> </button>
+                    <button class="button-81" role="button"> <a asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<a asp-action="Create"><button class="button-28" role="button">Create new</button></a>

@@ -1,5 +1,14 @@
 ﻿@model AppNt.Models.User
 
+
+<head>
+    <link rel="stylesheet" href="~/css/botonesPrincipales.css">
+</head>
+
+
+
+
+
 @{
     Layout = "~/Views/Shared/_Login.cshtml";
 }
@@ -25,15 +34,13 @@
 
 
             <div class="form-group">
-                <input type="submit" value="Iniciar sesion" class="btn btn-primary" />
+                <a><button class="button-28" role="button" type="submit">Iniciar sesion</button></a>
+
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

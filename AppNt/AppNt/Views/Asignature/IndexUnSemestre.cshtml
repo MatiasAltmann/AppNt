@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<AppNt.Models.Asignature>
+    <head>
+        <link rel="stylesheet" href="~/css/botones.css">
+    </head>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead class="thead-dark">
         <tr>
@@ -25,7 +26,9 @@
                 @Html.DisplayFor(modelItem => item.Semester.Name)
             </td>
             <td>
-                <a asp-controller="Profesors1" asp-action="indexProfesoresMateria" asp-route-id="@item.Id">Ver profesores</a> |
+                
+                <button class="button-81" role="button"> <a asp-controller="Profesors1" asp-action="indexProfesoresMateria" asp-route-id="@item.Id">Ver profesores</a> |</button>
+
             </td>
         </tr>
 }

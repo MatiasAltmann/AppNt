@@ -1,45 +1,54 @@
 ﻿@model IEnumerable<AppNt.Models.Vote>
+    <head>
+        <link rel="stylesheet" href="~/css/botones.css">
+    </head>
 
-@{
+    @{
     ViewData["Title"] = "Index";
-}
+    }
 
-<h1>Index</h1>
+    <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead   class="thead-dark">
-        <tr>
-            <th cope="col">
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th cope="col">
-                @Html.DisplayNameFor(model => model.Profesor)
-            </th>
-            <th cope="col">
-                @Html.DisplayNameFor(model => model.valueVote)
-            </th>
-            <th cope="col">More information</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Profesor.Lastname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.valueVote)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+
+
+
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th cope="col">
+                    @Html.DisplayNameFor(model => model.User)
+                </th>
+                <th cope="col">
+                    @Html.DisplayNameFor(model => model.Profesor)
+                </th>
+                <th cope="col">
+                    @Html.DisplayNameFor(model => model.valueVote)
+                </th>
+                <th cope="col">More information</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Profesor.Lastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.valueVote)
+                </td>
+                <td>
+
+                    <button class="button-81" role="button"> <a asp-action="Details" asp-route-id="@item.Id">Details</a></button>
+
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="Create"><button class="button-28" role="button">Create new</button></a>
+

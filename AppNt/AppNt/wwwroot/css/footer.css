@@ -1,0 +1,18 @@
+﻿footer {
+    background-color: #0d47a1;
+    margin-top: auto;
+    color:white;
+}
+
+#footerNew {
+    display:flex;
+    flex-direction:row;
+    justify-content:space-evenly;
+
+}
+
+#footerNew div p {
+    margin: 0;
+    padding: 0;
+}
+
