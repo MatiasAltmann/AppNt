@@ -1,35 +1,24 @@
 ﻿@model IEnumerable<AppNt.Models.VotoProfesor>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
-    <thead>
+    <thead class="thead-dark">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.QtyVotes)
-            </th>
-            <th></th>
+            <th scope="col">Posicion</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Name)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.QtyVotes)</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+
+
+        @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QtyVotes)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.QtyVotes)</td>
         </tr>
-}
+        }
     </tbody>
 </table>
+

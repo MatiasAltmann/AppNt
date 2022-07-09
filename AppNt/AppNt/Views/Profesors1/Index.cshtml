@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Profesors</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">New profesor</a>
 </p>
 <table class="table">
     <thead>
@@ -42,9 +42,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Age)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Photo)
-            </td>
+        
             <td>
                 @Html.DisplayFor(modelItem => item.Asignature.Name)
             </td>

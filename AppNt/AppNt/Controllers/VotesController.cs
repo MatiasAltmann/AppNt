@@ -30,16 +30,32 @@ namespace AppNt.Controllers
             var votos = _context.Votes.Include(x => x.Profesor).Where(x => x.valueVote == true).Where(x => x.Profesor.AsignatureId == (int)TempData["indexMateria"]).ToList();
             var agruparPorProfesor = votos.GroupBy(x => x.Profesor).ToList();
 
+            var mayores = agruparPorProfesor.OrderByDescending(x => x.Key.Vote.Count);
+            int pos = 1;
+            var listaVotosProfesor = new List<VotoProfesor>();
+            foreach (var item in mayores)
+            {
+                listaVotosProfesor.Add(new VotoProfesor
+                {
+                    Id = pos,
+                    Name = item.Key.Name,
+                    QtyVotes = item.Key.Vote.Count()
+                });
 
-            var votosProfesor = agruparPorProfesor.Select(x => new VotoProfesor {
+                pos++;
+            }
+            /*
+             
+            var votosProfesor = mayores.Select(x => new VotoProfesor {
                     Name = x.Key.Name,
-                    QtyVotes = x.Key.Vote.Count()
+                    QtyVotes = x.Key.Vote.Count(),
+
                 })
                 .ToList();
-
+            */
             TempData["indexMateria"] = id;
 
-            return View(votosProfesor);
+            return View(listaVotosProfesor);
         }
 
         // GET: Votes

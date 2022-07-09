@@ -10,11 +10,12 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav style="background-color:burlywood" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
+                <img width="200px" height="100px" src="https://campus.ort.edu.ar/video/imagen/874564" />
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AppNt</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TuRankingOrt</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -23,11 +24,9 @@
                         <ul class="navbar-nav flex-grow-1">
                             @if (User.IsInRole("ESTUDIANTES"))
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                                </li>
+
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Semester" asp-action="IndexForStudents">Semesters</a>
-                         
+
                             }
                             else
                             {
@@ -46,7 +45,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Votes" asp-action="Index">Ranking</a>
                                 </li>
-                           
+
                             }
 
                             <li class="nav-item float-right">
@@ -59,30 +58,28 @@
                         </ul>
                     </div>
                 }
-                else
-                {
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-warning border border-primary bg-light" asp-area="" asp-controller="User" asp-action="IniciarSesion">Ingresar</a>
-                                <a class="nav-link text-warning border border-primary bg-light" asp-area="" asp-controller="User" asp-action="Create">Registrate</a>
-                            </li>
-                        </ul>
-                    </div>
-                }
+               
             </div>
         </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <button  class="button-36" role="button"><a asp-area="" asp-controller="User" asp-action="IniciarSesion">Iniciar sesion</a></button>
+                <button class="button-36" role="button"><a asp-area="" asp-controller="User" asp-action="Create">Registrate</a></button>
+                
+            }
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - AppNt - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - TuRankingOrt - <a asp-area="" asp-controller="Home" asp-action="Privacy">Home</a>
         </div>
+
+
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -90,3 +87,41 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+
+
+<!-- HTML !-->
+
+<style>
+    /* CSS */
+.button-36 {
+  background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: "Inter UI","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  height: 4rem;
+  padding: 0 1.6rem;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+  transition: all .5s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.button-36 a {
+    color:white;
+}
+
+    .button-36:hover {
+        box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+        transition-duration: .1s;
+    }
+
+
+</style>
