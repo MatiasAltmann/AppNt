@@ -36,6 +36,7 @@ namespace AppNt.Models
 
         public Gender Gender { get; set; }
 
+        [EnumDataType(typeof(Role))]
         public Role Role { get; set; }
     }
 

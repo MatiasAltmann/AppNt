@@ -7,19 +7,6 @@ namespace AppNt.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Role",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Role", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Semesters",
                 columns: table => new
                 {
@@ -45,17 +32,11 @@ namespace AppNt.Migrations
                     Email = table.Column<string>(nullable: false),
                     Age = table.Column<int>(nullable: false),
                     Gender = table.Column<int>(nullable: false),
-                    RoleId = table.Column<int>(nullable: true)
+                    Role = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Role_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -139,11 +120,6 @@ namespace AppNt.Migrations
                 column: "AsignatureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleId",
-                table: "Users",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Votes_ProfesorId",
                 table: "Votes",
                 column: "ProfesorId");
@@ -167,9 +143,6 @@ namespace AppNt.Migrations
 
             migrationBuilder.DropTable(
                 name: "Asignatures");
-
-            migrationBuilder.DropTable(
-                name: "Role");
 
             migrationBuilder.DropTable(
                 name: "Semesters");

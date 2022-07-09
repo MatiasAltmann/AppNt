@@ -4,36 +4,33 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Vota a tus profesores</h1>
 
-<h4>Vote</h4>
+<h4>Elegí el profesores que quieras y votalo</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
-            </div>
+
             <div class="form-group">
                 <label asp-for="ProfesorId" class="control-label"></label>
                 <select asp-for="ProfesorId" class ="form-control" asp-items="ViewBag.ProfesorId"></select>
             </div>
             <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="valueVote" /> @Html.DisplayNameFor(model => model.valueVote)
+                <label class="form-check-label"> 
+                    <input class="form-check-input"  asp-for="valueVote" /> @Html.DisplayNameFor(model => model.valueVote)
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input  type="submit" value="Confirmar voto" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Semester" asp-action="IndexForStudents">Volver a semester</a>
 </div>
 
 @section Scripts {

@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<AppNt.Models.Profesor>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -51,6 +50,7 @@
 
     </tbody>
     <a asp-controller="Votes" asp-action="Create"><input type="button" name="name" value="Votar" /></a>
-    
+    <a asp-controller="Votes" asp-action="mostrarRanking"><input type="button" name="name" value="Ver ranking" /></a>
+
 
 </table>

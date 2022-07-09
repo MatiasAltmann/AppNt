@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppNt.Models;
 using RankingProfesores.Context;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace AppNt.Controllers
 {
@@ -20,27 +25,59 @@ namespace AppNt.Controllers
         }
 
         [HttpGet]
-        public IActionResult IniciarSesion() {
+        [HttpGet]
+        public IActionResult IniciarSesion(string returnUrl)
+        {
+            TempData["UrlIngreso"] = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public IActionResult IniciarSesion(User usuario) {
-           
-            if (usuario.Email == null || usuario.Password == null)
-            {
-                return NotFound();
-            }
-           
-
+        public IActionResult IniciarSesion(User usuario)
+        {
             var user = _context.Users.Where(m => m.Email == usuario.Email && m.Password == usuario.Password).FirstOrDefault();
             if (user == null)
             {
-            // return BadRequest(); // Preguntar como hacer q salte error nada más pero q n cambie de pagina
-
+                ViewBag.ErrorEnLogin = "Verifique el usuario y contraseña";
+                return View();
             }
 
+            ClaimsIdentity identidad = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Agregamos a la credencial el nombre de usuario
+            identidad.AddClaim(new Claim(ClaimTypes.Name, user.Email));
+            // Agregamos a la credencial el nombre del estudiante/administrador
+            identidad.AddClaim(new Claim(ClaimTypes.GivenName, user.Name));
+            // Agregamos a la credencial el Rol
+            identidad.AddClaim(new Claim(ClaimTypes.Role, user.Role.ToString()));
+
+            ClaimsPrincipal principal = new ClaimsPrincipal(identidad);
+
+            // Ejecutamos el Login
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+            if (user.Role == Role.ADMINISTRADOR) {
+                return Redirect("/Semester/Index");
+            }
+            
+
             return Redirect("/Semester/IndexForStudents");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Salir()
+        {
+          
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        public IActionResult AccesoDenegado()
+        {
+            return View();
         }
 
         // GET: User
@@ -70,6 +107,7 @@ namespace AppNt.Controllers
         // GET: User/Create
         public IActionResult Create()
         {
+           
             return View();
         }
 
@@ -84,7 +122,26 @@ namespace AppNt.Controllers
             {
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ClaimsIdentity identidad = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+
+                // Agregamos a la credencial el nombre de usuario
+                identidad.AddClaim(new Claim(ClaimTypes.Name, user.Email));
+                // Agregamos a la credencial el nombre del estudiante/administrador
+                identidad.AddClaim(new Claim(ClaimTypes.GivenName, user.Name));
+                // Agregamos a la credencial el Rol
+                identidad.AddClaim(new Claim(ClaimTypes.Role, user.Role.ToString()));
+
+                ClaimsPrincipal principal = new ClaimsPrincipal(identidad);
+
+                // Ejecutamos el Login
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                if (user.Role == Role.ADMINISTRADOR)
+                {
+                    return Redirect("/Semester/Index");
+                }
+
+
+                return Redirect("/Semester/IndexForStudents"); ;
             }
             return View(user);
         }
@@ -110,7 +167,7 @@ namespace AppNt.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IdentificationNumber,Password,Lastname,Email,Age,Gender")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IdentificationNumber,Password,Lastname,Email,Age,Gender,Role")] User user)
         {
             if (id != user.Id)
             {
@@ -141,6 +198,7 @@ namespace AppNt.Controllers
         }
 
         // GET: User/Delete/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -158,6 +216,7 @@ namespace AppNt.Controllers
             return View(user);
         }
 
+        [Authorize(Roles = "ADMINISTRADOR")]
         // POST: User/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

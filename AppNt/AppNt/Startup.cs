@@ -9,11 +9,7 @@ using RankingProfesores.Context;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-
-
-
-
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace AppNt
 {
@@ -26,9 +22,22 @@ namespace AppNt
 
         public IConfiguration Configuration { get; }
 
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                opciones =>
+                {
+                    opciones.LoginPath = "/User/IniciarSesion";
+                    opciones.AccessDeniedPath = "/User/AccesoDenegado";
+                    opciones.LogoutPath = "/User/Salir";
+                }
+            );
+
+
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for nonessential cookies is needed for a given request.
@@ -63,6 +72,8 @@ namespace AppNt
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -71,6 +82,9 @@ namespace AppNt
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // UseCookiePolicy al final de la configuracion
+            app.UseCookiePolicy();
         }
     }
 }

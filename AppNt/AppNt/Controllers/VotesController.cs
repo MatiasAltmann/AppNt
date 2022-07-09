@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppNt.Models;
 using RankingProfesores.Context;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace AppNt.Controllers
 {
@@ -23,16 +25,25 @@ namespace AppNt.Controllers
          
         public IActionResult mostrarRanking()
         {
-            var votos = _context.Votes.OrderBy(x => x.valueVote).GroupBy(x => x.ProfesorId).Select( new Profesor
-            {
-                Name = 
-            });
-         
+            int id = (int)TempData["indexMateria"];
 
-            return View(votos);
+            var votos = _context.Votes.Include(x => x.Profesor).Where(x => x.valueVote == true).Where(x => x.Profesor.AsignatureId == (int)TempData["indexMateria"]).ToList();
+            var agruparPorProfesor = votos.GroupBy(x => x.Profesor).ToList();
+
+
+            var votosProfesor = agruparPorProfesor.Select(x => new VotoProfesor {
+                    Name = x.Key.Name,
+                    QtyVotes = x.Key.Vote.Count()
+                })
+                .ToList();
+
+            TempData["indexMateria"] = id;
+
+            return View(votosProfesor);
         }
-        
+
         // GET: Votes
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Index()
         {
             var rankingDataBaseContext = _context.Votes.Include(v => v.Profesor).Include(v => v.User);
@@ -59,35 +70,52 @@ namespace AppNt.Controllers
             return View(vote);
         }
 
+     [Authorize(Roles = "ESTUDIANTES")]
         // GET: Votes/Create
         public IActionResult Create()
         {
-            int i = 1;
-            ViewData["ProfesorId"] = new SelectList(_context.Profesors.Where(x => x.AsignatureId == i), "Id", "Lastname");
-           // ViewData["ProfesorId"] = new SelectList(_context.Profesors.Where(x=> x.AsignatureId == i), "Id", "Lastname");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email");
+           int  id =(int) TempData["indexMateria"];
+
+            var claimsUser = User.Claims;
+            var usernameClaim = claimsUser.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault().Value;
+
+            ViewData["ProfesorId"] = new SelectList(_context.Profesors.Where(x => x.AsignatureId == id), "Id", "Lastname");
+            // ViewData["ProfesorId"] = new SelectList(_context.Profesors.Where(x=> x.AsignatureId == i), "Id", "Lastname");
+           // ViewData["UserId"] = new SelectList(_context.Users.Where(x => x.Email == usernameClaim), "Id", "Email").FirstOrDefault();
+          //  ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email");
+            TempData["indexMateria"] = id;
             return View();
         }
 
         // POST: Votes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    //    [Authorize(Roles = "ESTUDIANTE")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,UserId,ProfesorId,valueVote")] Vote vote)
         {
+            var claimsUser = User.Claims;
+            var usernameClaim = claimsUser.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault().Value;
+
+            User user = _context.Users.Where(x => x.Email == usernameClaim).FirstOrDefault();
+            int userId = user.Id;
+            vote.User = user;
+            vote.UserId = userId;
             if (ModelState.IsValid)
             {
                 _context.Add(vote);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                   
+                return RedirectToAction("IndexForStudents","Semester");
             }
             ViewData["ProfesorId"] = new SelectList(_context.Profesors, "Id", "Lastname", vote.ProfesorId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", vote.UserId);
-            return View(vote);
+            return Redirect("/Semester/IndexForStudents");
         }
 
         // GET: Votes/Edit/5
+        [Authorize(Roles = "ESTUDIANTE")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -142,6 +170,7 @@ namespace AppNt.Controllers
             return View(vote);
         }
 
+        [Authorize(Roles = "ESTUDIANTE")]
         // GET: Votes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppNt.Models;
 using RankingProfesores.Context;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppNt.Controllers
 {
@@ -21,27 +22,18 @@ namespace AppNt.Controllers
 
         // GET: Profesors1
 
-
-        /*
-         
-        public IActionResult votar()
-        {
-            TempData["indexProfesor"] = idProfesor;
-            return Redirect("/Votes/Create");
-        }
-
-
-*/
-
-
-
+        [HttpGet]
         public IActionResult IndexProfesoresMateria(int id)
         {
-            TempData["indexMateria"] = id;
+            TempData["indexMateria"] = id; //Faltaria ver q pasa cuando vuelve para atras
             var profesores = _context.Profesors.Where(x => x.AsignatureId == id).ToList();
+
 
             return View(profesores);
         }
+
+
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Index()
         {
             var rankingDataBaseContext = _context.Profesors.Include(p => p.Asignature);
@@ -67,6 +59,7 @@ namespace AppNt.Controllers
             return View(profesor);
         }
 
+      [Authorize(Roles = "ADMINISTRADOR")]
         // GET: Profesors1/Create
         public IActionResult Create()
         {
@@ -90,8 +83,9 @@ namespace AppNt.Controllers
             ViewData["AsignatureId"] = new SelectList(_context.Asignatures, "Id", "Name", profesor.AsignatureId);
             return View(profesor);
         }
-
+        [Authorize(Roles = "ADMINISTRADOR")]
         // GET: Profesors1/Edit/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -113,6 +107,7 @@ namespace AppNt.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Lastname,Age,Photo,AsignatureId")] Profesor profesor)
         {
             if (id != profesor.Id)
@@ -145,6 +140,7 @@ namespace AppNt.Controllers
         }
 
         // GET: Profesors1/Delete/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -166,6 +162,7 @@ namespace AppNt.Controllers
         // POST: Profesors1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var profesor = await _context.Profesors.FindAsync(id);

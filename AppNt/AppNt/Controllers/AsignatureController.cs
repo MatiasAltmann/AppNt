@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppNt.Models;
 using RankingProfesores.Context;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppNt.Controllers
 {
@@ -21,9 +22,9 @@ namespace AppNt.Controllers
 
         // GET: Asignature
 
-    
 
 
+        [Authorize(Roles = "ESTUDIANTES")]
         public IActionResult IndexUnSemestre(int id)
         {
             TempData["indexAsignature"] = id;
@@ -32,6 +33,7 @@ namespace AppNt.Controllers
         }
 
         // GET: Asignature
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Index()
         {
             var rankingDataBaseContext = _context.Asignatures.Include(a => a.Semester);
@@ -39,6 +41,7 @@ namespace AppNt.Controllers
         }
 
         // GET: Asignature/Details/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,6 +61,7 @@ namespace AppNt.Controllers
         }
 
         // GET: Asignature/Create
+        [Authorize(Roles = "ADMINISTRADOR")]
         public IActionResult Create()
         {
             ViewData["SemesterId"] = new SelectList(_context.Semesters, "Id", "Name");
@@ -82,6 +86,7 @@ namespace AppNt.Controllers
         }
 
         // GET: Asignature/Edit/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -135,6 +140,7 @@ namespace AppNt.Controllers
         }
 
         // GET: Asignature/Delete/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

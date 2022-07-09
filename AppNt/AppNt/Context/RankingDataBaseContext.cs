@@ -21,8 +21,8 @@ namespace RankingProfesores.Context
         public DbSet<Profesor> Profesors{ get; set; }
         public DbSet<Asignature> Asignatures { get; set; }
         public DbSet<Semester> Semesters { get; set; }
-        public DbSet<Role> Role { get; set; }
         public DbSet<Vote> Votes { get; set; }
+        public DbSet<AppNt.Models.VotoProfesor> VotoProfesor { get; set; }
 
 
 

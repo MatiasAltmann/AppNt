@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppNt.Models;
 using RankingProfesores.Context;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppNt.Controllers
 {
@@ -19,25 +20,20 @@ namespace AppNt.Controllers
             _context = context;
         }
 
-        /*
-         
-        public IActionResult seleccionarSemestre(int Id)
-        {
-            var semester = _context.Semesters.FirstOrDefaultAsync(m => m.Id == Id);
-            return View();
-        }
-        */
+        [Authorize(Roles = "ESTUDIANTES")]
         public async Task<IActionResult> IndexForStudents()
         {
             return View(await _context.Semesters.ToListAsync());
         }
 
         // GET: Semester
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Semesters.ToListAsync());
         }
 
+        [Authorize(Roles = "ADMINISTRADOR")]
         // GET: Semester/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -57,6 +53,7 @@ namespace AppNt.Controllers
         }
 
         // GET: Semester/Create
+       [Authorize(Roles = "ADMINISTRADOR")]
         public IActionResult Create()
         {
             return View();
@@ -66,6 +63,7 @@ namespace AppNt.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+       [Authorize(Roles = "ADMINISTRADOR")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Semester semester)
         {
@@ -79,6 +77,7 @@ namespace AppNt.Controllers
         }
 
         // GET: Semester/Edit/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,6 +98,7 @@ namespace AppNt.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Semester semester)
         {
             if (id != semester.Id)
@@ -130,6 +130,7 @@ namespace AppNt.Controllers
         }
 
         // GET: Semester/Delete/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -150,6 +151,7 @@ namespace AppNt.Controllers
         // POST: Semester/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var semester = await _context.Semesters.FindAsync(id);
