@@ -4,21 +4,25 @@
     ViewData["Title"] = "Index";
 }
 
+<head>
+    <link rel="stylesheet" href="~/css/botones.css">
+</head>
+
 <h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <thead>
+    <thead class="thead-dark">
         <tr>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Semester)
             </th>
-            <th></th>
+            <th>More information</th>
         </tr>
     </thead>
     <tbody>
@@ -31,9 +35,12 @@
                 @Html.DisplayFor(modelItem => item.Semester.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <button class="button-81" role="button"> <a asp-action="Edit" asp-route-id="@item.Id">Edit</a></button>
+                <button class="button-81" role="button"><a asp-action="Details" asp-route-id="@item.Id">Details</a></button>
+                <button class="button-81" role="button"> <a asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
+                
+
+
             </td>
         </tr>
 }

@@ -10,34 +10,34 @@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <thead>
+    <thead  class="thead-dark">
         <tr>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.IdentificationNumber)
             </th>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Password)
             </th>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Lastname)
             </th>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Age)
             </th>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Gender)
             </th>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Role)
             </th>
-            <th></th>
-        </tr>
+            <th cope="col">More information</thcope="col">
+</tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {

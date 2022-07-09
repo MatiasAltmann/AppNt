@@ -3,18 +3,18 @@
 
 
 <table class="table">
-    <thead>
+    <thead class="thead-dark">
         <tr>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Lastname)
             </th>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Age)
             </th>
-            <th>
+            <th cope="col">
                 @Html.DisplayNameFor(model => model.Photo)
             </th>
 
@@ -47,6 +47,9 @@
 
 
         }
+
+
+
 
     </tbody>
     <a asp-controller="Votes" asp-action="Create"><input type="button" name="name" value="Votar" /></a>
