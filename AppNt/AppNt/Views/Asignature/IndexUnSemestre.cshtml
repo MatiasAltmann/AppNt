@@ -26,8 +26,9 @@
                 @Html.DisplayFor(modelItem => item.Semester.Name)
             </td>
             <td>
+
                 
-                <button class="button-81" role="button"> <a asp-controller="Profesors1" asp-action="indexProfesoresMateria" asp-route-id="@item.Id">Ver profesores</a> |</button>
+                <a asp-controller="Profesors1" asp-action="indexProfesoresMateria" asp-route-id="@item.Id"><button class="button-81" role="button">Ver profesores</button></a>
 
             </td>
         </tr>

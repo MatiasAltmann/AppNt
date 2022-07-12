@@ -42,8 +42,9 @@
                     @Html.DisplayFor(modelItem => item.valueVote)
                 </td>
                 <td>
-
-                    <button class="button-81" role="button"> <a asp-action="Details" asp-route-id="@item.Id">Details</a></button>
+                  
+                    <a asp-action="Details" asp-route-id="@item.Id"><button class="button-81" role="button">Details</button></a>
+                    
 
                 </td>
             </tr>
